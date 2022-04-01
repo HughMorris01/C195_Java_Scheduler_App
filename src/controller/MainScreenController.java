@@ -1,5 +1,6 @@
 package controller;
 
+import database.DBContacts;
 import database.DBCountries;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -7,12 +8,18 @@ import javafx.fxml.Initializable;
 import model.Country;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class MainScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println(2);
+        try {
+            int rowsAffected = DBContacts.insertContact("Franco",  "FrankMarsh@gmail.com");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void showCountries() {
