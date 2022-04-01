@@ -10,7 +10,7 @@ public class DBContacts {
     public static int insertContact(String name, String email) throws SQLException {
 
         String sqlCommand = "INSERT INTO contacts(Contact_Name, Email) VALUES (?, ?)";
-        PreparedStatement ps = JDBC.connection.prepareStatement(sqlCommand);
+        PreparedStatement ps = JDBC.getConnection().prepareStatement(sqlCommand);
         ps.setString(1, name);
         ps.setString(2, email);
         int rowsAffected = ps.executeUpdate();
