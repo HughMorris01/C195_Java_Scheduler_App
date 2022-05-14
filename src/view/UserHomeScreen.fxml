@@ -16,7 +16,9 @@
             <Font size="32.0" />
          </font>
       </Button>
-      <Label layoutX="28.0" layoutY="33.0" prefHeight="18.0" prefWidth="63.0" text="User ID" />
-      <Label layoutX="28.0" layoutY="59.0" text="Login Timestamp" />
+      <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="28.0" layoutY="33.0" prefHeight="18.0" prefWidth="63.0" text="Hello, " textAlignment="RIGHT" />
+      <Label layoutX="28.0" layoutY="59.0" text="Login Time: " />
+      <Label fx:id="userName" layoutX="91.0" layoutY="34.0" prefHeight="18.0" prefWidth="51.0" text="Label" />
+      <Label fx:id="loginTimeTextField" layoutX="91.0" layoutY="59.0" prefHeight="18.0" prefWidth="77.0" text="Label" />
    </children>
 </AnchorPane>
