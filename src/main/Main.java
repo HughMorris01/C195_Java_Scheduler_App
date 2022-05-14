@@ -8,7 +8,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.util.Locale;
+import java.sql.Timestamp;
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjuster;
+import java.time.temporal.TemporalAdjusters;
+import java.util.*;
 
 /**
  * This class creates an appointment management application that interfaces with a MySQL database.
@@ -32,6 +40,15 @@ public class Main extends Application {
         DBCountries.checkDateTimeConversion();
 
         //Locale.setDefault(new Locale("fr"));
+        LocalDateTime a = LocalDateTime.now();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm");
+        String b = dtf.format(a);
+        ZonedDateTime testing = ZonedDateTime.of(a, ZoneId.of("US/Arizona"));
+        System.out.println(b + " \n" + testing);
+        testing = testing.plusHours(3);
+        System.out.println("\n" +testing);
+        System.out.println(ZonedDateTime.of(2024, 4, 8, 13, 35, 56, 0, ZoneId.of("US/Central")));
+
         launch(args);
 
         JDBC.closeConnection();

@@ -11,7 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import model.Country;
+
 
 import java.io.IOException;
 import java.net.URL;
@@ -29,32 +29,13 @@ public class MainScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println(2);
-        try {
-            DBCustomers.selectCustomers();
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
-        }
     }
-
-    /*
-    public void showCountries() {
-        // List variable to populate
-        ObservableList<Country> countryList;
-
-        // Return the list of countries from the database
-        countryList = DBCountries.getAllCountries();
-
-        // Display all countries in console
-        for (Country c : countryList) {
-            System.out.println("Country ID: " + c.getId() + " Country Name: " + c.getName());
-        }
-    }
-    */
 
     public void loginValidation(ActionEvent actionEvent) throws IOException {
         String enteredName = userIdTextField.getText();
         String enteredPassword = passwordTextField.getText();
+
+
 
         Parent root = FXMLLoader.load(getClass().getResource("/view/UserHomeScreen.fxml"));
         Stage stage = (Stage) ((Node) (actionEvent.getSource())).getScene().getWindow();

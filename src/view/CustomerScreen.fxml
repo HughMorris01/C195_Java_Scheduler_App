@@ -2,15 +2,26 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CustomerScreenController">
-   <children>
-      <TableView layoutX="162.0" layoutY="62.0" prefHeight="200.0" prefWidth="200.0">
+<AnchorPane prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CustomerScreenController">
+      <TableView fx:id="customerTable" layoutX="3.0" layoutY="52.0" prefHeight="274.0" prefWidth="593.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="C1" />
-          <TableColumn prefWidth="75.0" text="C2" />
+          <TableColumn fx:id="idCol" prefWidth="45.0" style="textAlign: center;" text="ID" />
+          <TableColumn fx:id="nameCol" prefWidth="125.0" text="Name" />
+            <TableColumn fx:id="addressCol" prefWidth="125.0" text="Address" />
+            <TableColumn fx:id="postalCol" prefWidth="100.0" text="Postal Code" />
+            <TableColumn fx:id="phoneCol" prefWidth="100.0" text="Phone" />
+            <TableColumn fx:id="divisionCol" minWidth="5.0" prefWidth="95.0" text="Division" />
         </columns>
       </TableView>
-      <Button layoutX="66.0" layoutY="311.0" mnemonicParsing="false" text="Button" />
-   </children>
+      <Button layoutX="446.0" layoutY="347.0" mnemonicParsing="false" onAction="#onDeleteCustomer" prefHeight="26.0" prefWidth="105.0" text="Delete Customer" />
+      <Button layoutX="72.0" layoutY="347.0" mnemonicParsing="false" onAction="#onAddCustomer" prefHeight="26.0" prefWidth="105.0" text="New Customer" />
+      <Button layoutX="242.0" layoutY="347.0" mnemonicParsing="false" onAction="#onModifyCustomer" prefHeight="26.0" prefWidth="110.0" text="Modify Customer" />
+      <Label layoutX="251.0" layoutY="14.0" text="Customers">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+   <Button layoutX="75.0" layoutY="410.0" mnemonicParsing="false" onAction="#toUserHomeScreen" text="&lt;== Back" />
 </AnchorPane>
