@@ -23,7 +23,7 @@ public class UserHomeScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         LocalDateTime loginSuccess = MainScreenController.getLoginTime();
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm a");
         String loginTimeString = dtf.format(loginSuccess);
         loginTimeTextField.setText(loginTimeString);
         userName.setText(MainScreenController.getUser().getUserName());

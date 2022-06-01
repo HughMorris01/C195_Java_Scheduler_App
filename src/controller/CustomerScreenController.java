@@ -1,5 +1,6 @@
 package controller;
 
+import database.DBAppointments;
 import database.DBCustomers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -8,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -17,6 +19,7 @@ import model.Customer;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
@@ -70,16 +73,38 @@ public class CustomerScreenController implements Initializable {
         else  {
             Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
             alert1.setTitle("No Selection Made");
-            alert1.setContentText("Please select a customer to to update.");
+            alert1.setContentText("Please select a Customer to update.");
             alert1.show();
         }
     }
 
     public void onDeleteCustomer(ActionEvent actionEvent) throws SQLException {
         Customer selectedCustomer = customersTable.getSelectionModel().getSelectedItem();
-        int customerId = selectedCustomer.getCustomerId();
-        DBCustomers.deleteCustomer(customerId);
-        customersTable.setItems(DBCustomers.getAllCustomers());
+
+        if(selectedCustomer == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("No Customer Selected");
+            alert.setContentText("Please Select the Customer to be Deleted");
+            alert.show();
+            return;
+        }
+        else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Permanently Delete Selected Customer and All Associated Appointments?");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if(result.isPresent()  && result.get() == ButtonType.OK) {
+                int customerId = selectedCustomer.getCustomerId();
+                DBAppointments.deleteAppointmentByCustomer(customerId);
+
+                DBCustomers.deleteCustomer(customerId);
+                customersTable.setItems(DBCustomers.getAllCustomers());
+
+                    Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
+                    alert1.setTitle("Deletion Confirmation");
+                    alert1.setContentText("The Selected Customer and All Associated Appointments Have Been Deleted");
+                    alert1.show();
+                }
+            }
     }
 
     public void toUserHomeScreen(ActionEvent actionEvent) throws IOException {

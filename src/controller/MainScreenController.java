@@ -1,9 +1,7 @@
 package controller;
 
 import com.sun.javafx.stage.StageHelper;
-import database.DBCountries;
-import database.DBCustomers;
-import database.DBUsers;
+import database.*;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -49,31 +47,24 @@ public class MainScreenController implements Initializable {
     private static Locale userLocale;
     private static LocalDateTime loginTime;
     private static User user;
-    private static String userName;
-    private static int userId;
-    private static String errorMessage1 = "The username and password do not match our records, please try again.";
+    private static String errorMessage1 = "The Username and Password Do Not Match Our Records, Please Try Again.";
     private static String blankField = "Blank Field";
     private static String invalidLogin = "Invalid Login Attempt";
-    private static String blankAlert1 = "A username must be entered.";
-    private static String blankAlert2 = "A password must be entered.";
+    private static String blankAlert1 = "A Username Must be Entered.";
+    private static String blankAlert2 = "A Password Must be Entered.";
 
 
 
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
         checkLocale();
 
+        LEInterface lambdaRequirement = customerId -> {
+            return DBAppointments.getAppointmentsByCustomerId(customerId);
+        };
 
-        /* LocalDateTime a = LocalDateTime.now();
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm");
-        String b = dtf.format(a);
-        ZonedDateTime testing = ZonedDateTime.of(a, ZoneId.of("US/Arizona"));
-        System.out.println(b + " \n" + testing);
-        testing = testing.plusHours(3);
-        System.out.println("\n" +testing);
-        System.out.println(ZonedDateTime.of(2024, 4, 8, 13, 35, 56, 0, ZoneId.of("US/Central"))); */
+        lambdaRequirement.getMonthlyAppointments(16);
     }
 
     public void checkLocale() {
@@ -118,10 +109,10 @@ public class MainScreenController implements Initializable {
             String enteredPassword = passwordTextField.getText();
 
             for(User u : allUsers) {
-                System.out.println(u);
                 if(u.getUserName().equals(enteredName) && u.getUserPassword().equals(enteredPassword)) {
                     loginTime = LocalDateTime.now();
                     user = u;
+
                     Parent root = FXMLLoader.load(getClass().getResource("/view/UserHomeScreen.fxml"));
                     Stage stage = (Stage) ((Node) (actionEvent.getSource())).getScene().getWindow();
                     Scene scene = new Scene(root, 500, 500);
@@ -130,13 +121,12 @@ public class MainScreenController implements Initializable {
                     return;
                 }
             }
-             {  Alert alert = new Alert(Alert.AlertType.ERROR);
+               Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle(invalidLogin);
                 alert.setContentText(errorMessage1);
                 alert.show();
                 userIdTextField.clear();
                 passwordTextField.clear();
-            }
         }
         catch (Exception exception) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Please enter valid values in the input fields");

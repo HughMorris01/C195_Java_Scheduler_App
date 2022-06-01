@@ -38,14 +38,13 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         JDBC.openConnection();
-        ZonedDateTime localTime0 = ZonedDateTime.now();
+        /* ZonedDateTime localTime0 = ZonedDateTime.now();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
         String b = dtf.format(localTime0);
         System.out.println(b);
         System.out.println(localTime0);
-        System.out.println(localTime0.toInstant());
-        //ZoneId.getAvailableZoneIds().stream().forEach(System.out::println);
-        // ZoneId.getAvailableZoneIds().stream().filter(c -> c.contains("America")).forEach(System.out::println);
+        System.out.println(localTime0.toInstant()); */
+
         launch(args);
         JDBC.closeConnection();
     }

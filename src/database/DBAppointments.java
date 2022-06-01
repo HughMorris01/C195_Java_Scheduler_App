@@ -1,13 +1,12 @@
 package database;
 
+import controller.AddModifyAppointmentScreenController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Appointment;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
@@ -16,8 +15,10 @@ public abstract class DBAppointments {
     public static ObservableList<Appointment> getAllAppointments() {
         ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
         try {
-            String sqlCommand = "SELECT * FROM appointments";
+            String sqlCommand = "SELECT * FROM appointments WHERE Start >= ?";
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sqlCommand);
+            String dateString = LocalDate.now().toString();
+            ps.setString(1, dateString);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 int appointmentId = rs.getInt("Appointment_ID");
@@ -43,6 +44,109 @@ public abstract class DBAppointments {
         return allAppointments;
     }
 
+    public static ObservableList<Appointment> getAppointmentsByWeek() {
+        ObservableList<Appointment> weeklyAppointments = FXCollections.observableArrayList();
+        try {
+            String sqlCommand = "SELECT * FROM appointments WHERE Start >= ? AND Start <= ?";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sqlCommand);
+            LocalDate date = LocalDate.now();
+            LocalDate date1 = date.plusDays(6);
+            String dateString = date.toString();
+            String dateString2 = date1.toString();
+            ps.setString(1, dateString);
+            ps.setString(2, dateString2);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int appointmentId = rs.getInt("Appointment_ID");
+                String title = rs.getString("Title");
+                String description = rs.getString("Description");
+                String location = rs.getString("Location");
+                String type = rs.getString("Type");
+                Timestamp sts = rs.getTimestamp("Start");
+                LocalDateTime start = sts.toLocalDateTime();
+                Timestamp ets = rs.getTimestamp("End");
+                LocalDateTime end = ets.toLocalDateTime();
+                int customerId = rs.getInt("Customer_ID");
+                int userId = rs.getInt("User_ID");
+                int contactId = rs.getInt("Contact_ID");
+                Appointment tempAppointment = new Appointment(appointmentId, start, end, title, description, location, type, customerId, userId, contactId);
+                weeklyAppointments.add(tempAppointment);
+            }
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+        return weeklyAppointments;
+    }
+
+    public static ObservableList<Appointment> getAppointmentsByMonth() {
+        ObservableList<Appointment> monthlyAppointments = FXCollections.observableArrayList();
+        try {
+            String sqlCommand = "SELECT * FROM appointments WHERE Start >= ? AND Start <= ?";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sqlCommand);
+            LocalDate date = LocalDate.now();
+            LocalDate date1 = date.plusDays(30);
+            String dateString = date.toString();
+            String dateString2 = date1.toString();
+            ps.setString(1, dateString);
+            ps.setString(2, dateString2);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int appointmentId = rs.getInt("Appointment_ID");
+                String title = rs.getString("Title");
+                String description = rs.getString("Description");
+                String location = rs.getString("Location");
+                String type = rs.getString("Type");
+                Timestamp sts = rs.getTimestamp("Start");
+                LocalDateTime start = sts.toLocalDateTime();
+                Timestamp ets = rs.getTimestamp("End");
+                LocalDateTime end = ets.toLocalDateTime();
+                int customerId = rs.getInt("Customer_ID");
+                int userId = rs.getInt("User_ID");
+                int contactId = rs.getInt("Contact_ID");
+                Appointment tempAppointment = new Appointment(appointmentId, start, end, title, description, location, type, customerId, userId, contactId);
+                monthlyAppointments.add(tempAppointment);
+            }
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+        return monthlyAppointments;
+    }
+
+    public static ObservableList<Appointment> getAppointmentsByCustomerId(int customerId) {
+        ObservableList<Appointment> customerAppointments = FXCollections.observableArrayList();
+        try {
+            String sqlCommand = "SELECT * FROM appointments WHERE Customer_ID = ?";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sqlCommand);
+            ps.setInt(1, customerId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int appointmentId = rs.getInt("Appointment_ID");
+                String title = rs.getString("Title");
+                String description = rs.getString("Description");
+                String location = rs.getString("Location");
+                String type = rs.getString("Type");
+                Timestamp sts = rs.getTimestamp("Start");
+                LocalDateTime start = sts.toLocalDateTime();
+                Timestamp ets = rs.getTimestamp("End");
+                LocalDateTime end = ets.toLocalDateTime();
+                int customerID = rs.getInt("Customer_ID");
+                int userId = rs.getInt("User_ID");
+                int contactId = rs.getInt("Contact_ID");
+                Appointment tempAppointment = new Appointment(appointmentId, start, end, title, description, location, type, customerID, userId, contactId);
+                customerAppointments.add(tempAppointment);
+            }
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+        return customerAppointments;
+    }
+
     public static void insertAppointment(String title, String description, String location, String type, Timestamp start, Timestamp end, int customerId, int contactId, int userId) throws SQLException {
             String sqlCommand = "INSERT INTO appointments (Title, Description, Location, Type, Start, End, Customer_ID, Contact_ID, User_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sqlCommand);
@@ -58,8 +162,8 @@ public abstract class DBAppointments {
             ps.executeUpdate();
     }
 
-    public static void updateAppointment(int appointmentId, String title, String description, String location, String type, Timestamp start, Timestamp end, int customerId, int contactId, int userId) throws SQLException {
-        String sqlCommand = "INSERT INTO appointments (Title, Description, Location, Type, Start, End, Customer_ID, Contact_ID, User_ID, Appointment_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public static void updateAppointment(String title, String description, String location, String type, Timestamp start, Timestamp end, int customerId, int contactId, int userId, int appointmentId) throws SQLException {
+        String sqlCommand = "UPDATE appointments SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Customer_ID = ?, Contact_ID = ?, User_ID = ? WHERE Appointment_ID = ?";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sqlCommand);
         ps.setString(1, title);
         ps.setString(2, description);
@@ -78,6 +182,13 @@ public abstract class DBAppointments {
         String sqlCommand = "DELETE FROM appointments WHERE Appointment_ID = ? ";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sqlCommand);
         ps.setInt(1, appointmentId);
+        ps.executeUpdate();
+    }
+
+    public static void deleteAppointmentByCustomer(int customerId) throws SQLException {
+        String sqlCommand = "DELETE FROM appointments WHERE Customer_ID = ? ";
+        PreparedStatement ps = JDBC.getConnection().prepareStatement(sqlCommand);
+        ps.setInt(1, customerId);
         ps.executeUpdate();
     }
 }

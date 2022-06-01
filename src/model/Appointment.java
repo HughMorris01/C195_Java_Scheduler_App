@@ -104,6 +104,7 @@ public class Appointment {
     public String getType() { return type; }
     public Customer getCustomer() { return customer; }
     public int getCustomerId() { return customerId; }
+    public Contact getContact() { return contact; }
     public String getContactName() { return contact.getContactName(); }
     public int getContactId() { return contactId; }
     public User getUser() { return user; }

@@ -26,7 +26,7 @@ public class Customer {
         setPostalCode(postalCode);
         setPhone(phone);
         setDivisionId(divisionId);
-        DBFirst_Level_Divisions.getAllDivisions();
+        //DBFirst_Level_Divisions.getAllDivisions();
         for (Division d : DBFirst_Level_Divisions.getAllDivisions()) {
             if (divisionId == d.getDivisionId()) {
                 setDivision(d);
@@ -70,7 +70,7 @@ public class Customer {
 
     @Override
     public String toString() {
-        String customerToString = "id #" + getCustomerId() + ": " + getCustomerName();
+        String customerToString = getCustomerName() + " : #" + getCustomerId();
         return customerToString;
     }
 }

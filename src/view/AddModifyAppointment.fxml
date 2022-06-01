@@ -22,7 +22,7 @@
       <TextField fx:id="titleTextField" layoutX="175.0" layoutY="234.0" prefHeight="26.0" prefWidth="162.0" />
       <TextField fx:id="locationTextField" disable="true" layoutX="175.0" layoutY="298.0" prefHeight="26.0" prefWidth="162.0" promptText="Customer Location" />
       <TextField fx:id="contactId" disable="true" layoutX="175.0" layoutY="366.0" prefHeight="26.0" prefWidth="162.0" promptText="Contact ID" visible="false" />
-      <TextField fx:id="userIdTextField" layoutX="175.0" layoutY="403.0" prefHeight="26.0" prefWidth="162.0" />
+      <TextField fx:id="userIdTextField" disable="true" layoutX="175.0" layoutY="403.0" prefHeight="26.0" prefWidth="162.0" />
       <Label fx:id="screenLabel" layoutX="283.0" layoutY="5.0" text="Label">
          <font>
             <Font name="System Bold" size="14.0" />
@@ -30,7 +30,7 @@
       <TextField fx:id="descriptionTextField" layoutX="175.0" layoutY="267.0" prefHeight="26.0" prefWidth="162.0" />
       <Button layoutX="36.0" layoutY="451.0" mnemonicParsing="false" onAction="#toBack" text="&lt;&lt;== Back" />
       <Button fx:id="submitButton" layoutX="230.0" layoutY="451.0" mnemonicParsing="false" onAction="#onSubmit" text="Update Appointment" />
-      <ComboBox fx:id="contactComboBox" layoutX="175.0" layoutY="365.0" onAction="#onContactSelect" prefHeight="26.0" prefWidth="162.0" />
+      <ComboBox fx:id="contactComboBox" layoutX="175.0" layoutY="365.0" prefHeight="26.0" prefWidth="162.0" />
       <ComboBox fx:id="customerComboBox" layoutX="175.0" layoutY="81.0" onAction="#onCustomerSelect" prefHeight="26.0" prefWidth="162.0" promptText="Select Customer" />
       <TextField fx:id="typeTextField" layoutX="175.0" layoutY="331.0" prefHeight="26.0" prefWidth="162.0" />
       <ComboBox fx:id="startTimeComboBox" layoutX="174.0" layoutY="159.0" onAction="#onStartTime" prefHeight="26.0" prefWidth="122.0" promptText="Select Start" />
