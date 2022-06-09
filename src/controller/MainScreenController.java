@@ -19,6 +19,7 @@ import model.User;
 import java.io.*;
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -68,7 +69,7 @@ public class MainScreenController implements Initializable {
 
         lambdaRequirement1.checkLocale();
 
-        lambdaRequirement2.flushTxtFile("login_activity.txt");
+        //lambdaRequirement2.flushTxtFile("login_activity.txt");
     }
 
     /** This is the lambda expression that flushes the login_activity.txt file. This is necessary so that the file is
@@ -97,14 +98,14 @@ public class MainScreenController implements Initializable {
             loginButton.setText(rb.getString("login"));
             loginButton.setPrefWidth(110);
             userLocaleLabel.setText(rb.getString("locale"));
-            userLocaleData.setText(rb.getString("france"));
+            userLocaleData.setText(ZoneId.systemDefault().getId());
             errorMessage1 = rb.getString("errorMessage1");
             blankField = rb.getString("blankField");
             invalidLogin = rb.getString("invalidLogin");
             blankAlert1 = rb.getString("blankAlert1");
             blankAlert2 = rb.getString("blankAlert2");
         }
-        else { userLocaleData.setText(userLocale.getDisplayCountry()); }
+        else { userLocaleData.setText(ZoneId.systemDefault().getId()); }
     };
 
     /** This method records data each time a login is attempted. The characters entered for the username and password, as
