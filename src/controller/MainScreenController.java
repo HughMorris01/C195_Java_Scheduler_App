@@ -34,10 +34,13 @@ public class MainScreenController implements Initializable {
     public TextField userIdTextField;
     /** User Password text field */
     public TextField passwordTextField;
+    /** Label pointing to the password text field. */
     public Label passwordLabel;
+    /** Label pointing to the user ID text field. */
     public Label userIdLabel;
     /** Login button */
     public Button loginButton;
+    /** Label pointing to the User locale data. */
     public Label userLocaleLabel;
     /** Label that displays the User's locale */
     public Label userLocaleData;
@@ -73,7 +76,6 @@ public class MainScreenController implements Initializable {
 
     /** This is the lambda expression that flushes the login_activity.txt file. This is necessary so that the file is
      * created fresh each time the application is launched.
-     * @param loginFileName
      * */
     public LEInterface2 lambdaRequirement2 = (loginFileName) -> {
         try {
@@ -190,8 +192,13 @@ public class MainScreenController implements Initializable {
         }
     }
 
-    // Getter functions
+    /** Method returns the User's Locale.
+     * @return  userLocale as a Locale object*/
     public static Locale getUserLocale() { return userLocale;}
+    /** Method returns a timestamp of the login time.
+     * @return  loginTime as a LocaleDateTime object*/
     public static LocalDateTime getLoginTime() { return loginTime; }
+    /** Method returns the User object.
+     * @return  user as a User object*/
     public static User getUser() { return user; }
 }
