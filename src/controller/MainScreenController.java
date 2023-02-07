@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 /** This is the controller class for the MainScreen.fxml document and is not meant to be instantiated.
@@ -35,10 +36,13 @@ public class MainScreenController implements Initializable {
     public TextField userIdTextField;
     /** User Password text field */
     public TextField passwordTextField;
+    /** Password label */
     public Label passwordLabel;
+    /** User ID label */
     public Label userIdLabel;
     /** Login button */
     public Button loginButton;
+    /** User locale label label */
     public Label userLocaleLabel;
     /** Label that displays the User's locale */
     public Label userLocaleData;
@@ -48,10 +52,15 @@ public class MainScreenController implements Initializable {
     private static LocalDateTime loginTime;
     /** User that is created upon login authentication */
     private static User user;
+    /** Error message displayed if login attempt fails */
     private static String errorMessage1 = "The username and password entered do not match our records, please try again.";
+    /** Error message title if no username or password is entered. */
     private static String blankField = "Blank Field";
+    /** Error message title if login attempt fails. */
     private static String invalidLogin = "Invalid Login Attempt";
+    /** Error message displayed if no username is entered. */
     private static String blankAlert1 = "A Username Must be Entered.";
+    /** Error message displayed if no password is entered. */
     private static String blankAlert2 = "A Password Must be Entered.";
     /** Counter to track and record the number of login attempts. */
     private static int loginCounter = 1;
@@ -74,7 +83,6 @@ public class MainScreenController implements Initializable {
 
     /** This is the lambda expression that flushes the login_activity.txt file. This is necessary so that the file is
      * created fresh each time the application is launched.
-     * @param loginFileName
      * */
     public LEInterface2 lambdaRequirement2 = (loginFileName) -> {
         try {
@@ -165,7 +173,7 @@ public class MainScreenController implements Initializable {
                         e.printStackTrace();
                     }
 
-                    Parent root = FXMLLoader.load(getClass().getResource("/view/UserHomeScreen.fxml"));
+                    Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/UserHomeScreen.fxml")));
                     Stage stage = (Stage) ((Node) (actionEvent.getSource())).getScene().getWindow();
                     Scene scene = new Scene(root, 500, 500);
                     stage.setScene(scene);
