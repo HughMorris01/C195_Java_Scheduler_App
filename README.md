@@ -23,18 +23,30 @@ Business Intelligence Reporting: * Location Performance: Generates totals of app
 
 Strategic Insights: Custom reporting functions designed to provide organizational snapshots of customer activity.
 
-🧠 Technical Challenges & Solutions
-1. Database Connectivity & Resource Management
-Challenge: Establishing a reliable connection to a remote MySQL database while ensuring that resources (connections, statements, and result sets) were properly closed to prevent memory leaks or connection exhaustion. Solution: Implemented the Data Access Object (DAO) pattern. I utilized a dedicated DBConnection utility class with static methods to manage the connection lifecycle and employed try-with-resources blocks to ensure all JDBC resources were automatically closed even if an exception occurred.
+🌐 Technical Challenges & Solutions
+1. Multi-Region Time Zone Management
+Challenge: The application must be usable by clients in different geographical regions (e.g., EST, GMT, MST) while maintaining a consistent schedule in the database. Solution:
 
-2. Time Zone Synchronization
-Challenge: Managing appointment times for users in different geographical locations. The database stores times in UTC, but the application needs to display them in the user's local system time. Solution: Leveraged the java.time API (specifically ZonedDateTime and LocalDateTime). I implemented logic to convert user input from their local time zone to UTC before database persistence and performed the reverse conversion when fetching data for the UI.
+Database Normalization: All appointment timestamps are converted to UTC (Coordinated Universal Time) before being stored in the MySQL database.
 
-3. Data Integrity & Validation
-Challenge: Preventing logical errors, such as scheduling overlapping appointments for the same customer or entering invalid date ranges. Solution: Developed a validation engine within the controllers that checks for overlapping time slots by querying the database before a "Save" operation is finalized. I also utilized JavaFX Alert dialogs to provide immediate, descriptive feedback to the user when validation rules were triggered.
+Dynamic Conversion: I utilized the Java ZonedDateTime and ZoneId classes to detect the user's local system time at login. All database records are converted from UTC to the user's local time on the fly for display in the UI.
+
+Business Logic: Implemented a validation layer that checks appointment times against a "Company EST" schedule (8am - 10pm EST), regardless of the user's local time zone.
+
+2. Localization (i18n) & Internationalization
+Challenge: The application required seamless switching between English and French based on the user's system language settings. Solution:
+
+Resource Bundles: Leveraged java.util.ResourceBundle to separate UI string literals from the code logic. Created parallel .properties files for English and French.
+
+Locale Detection: The application automatically initializes the Locale.getDefault() method at launch. If the system language is French, the login form and error messages automatically render in French.
+
+3. Functional Interface Implementation
+Challenge: Reducing boilerplate code for repetitive UI tasks and improving code maintainability. Solution:
+
+Lambdas: Defined custom functional interfaces to handle alert message generation. This simplified the controller logic and improved code readability by replacing verbose anonymous inner classes with concise lambda expressions.
 
 📁 Project Structure
-src/: Contains the FXML layouts, Java controllers, and database access objects (DAO).
+src/: Contains the FXML layouts, Java controllers, and Data Access Objects (DAO).
 
 JavaDocs/: Full technical documentation for the application's classes and methods.
 
@@ -44,7 +56,7 @@ Database ERD.pdf: Detailed Entity Relationship Diagram showing the database sche
 Clone the Repository:
 
 Bash
-git clone https://github.com/HughMorris01/[Repository-Name].git
+git clone https://github.com/HughMorris01/C195_Java_Scheduler_App.git
 Database Configuration: Ensure a MySQL instance is running and update the connection parameters in the source code to point to your specific database host.
 
 Authentication: Launch the application and enter valid user credentials to access the management dashboard.
