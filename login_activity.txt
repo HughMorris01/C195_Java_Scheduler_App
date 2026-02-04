@@ -1,3 +1,0 @@
-Login Attempt #1 - 2/4/26 12:58AM
-Username Entered: "test" | Password Entered: "test" | Successful: true
-
